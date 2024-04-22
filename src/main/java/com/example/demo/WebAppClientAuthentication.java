@@ -45,9 +45,10 @@ public class WebAppClientAuthentication implements ClientAuthentication {
     private String getAccessToken() {
         String identityHeader = System.getenv("IDENTITY_HEADER");
         String identityEndpoint = System.getenv("IDENTITY_ENDPOINT");
-        String url = identityEndpoint + "/?resource=https://vault.azure.net&api-version=2019-08-01";
+        String url = identityEndpoint + "?resource=https://vault.azure.net&api-version=2019-08-01";
         HttpHeaders headers = new HttpHeaders();
         headers.add("x-identity-header", identityHeader);
+        logger.info("Azure MSI URL: " + url);
 
         ResponseEntity<Map> response = this.restOperations.exchange(url, HttpMethod.GET, new HttpEntity(headers), Map.class);
         String accessToken = (String)((Map)response.getBody()).get("access_token");
