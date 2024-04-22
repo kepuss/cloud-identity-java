@@ -47,7 +47,7 @@ public class WebAppClientAuthentication implements ClientAuthentication {
         String identityEndpoint = System.getenv("IDENTITY_ENDPOINT");
         String url = identityEndpoint + "/?resource=https://vault.azure.net&api-version=2019-08-01";
         HttpHeaders headers = new HttpHeaders();
-        headers.add("x-identity-header", "identityHeader");
+        headers.add("x-identity-header", identityHeader);
 
         ResponseEntity<Map> response = this.restOperations.exchange(url, HttpMethod.GET, new HttpEntity(headers), Map.class);
         String accessToken = (String)((Map)response.getBody()).get("access_token");
@@ -62,9 +62,9 @@ public class WebAppClientAuthentication implements ClientAuthentication {
 
 
     private VaultToken createTokenUsingAzureMsiCompute() {
-        Map<String, String> login = getAzureLogin(this.role, this.getAccessToken());
-
         try {
+            Map<String, String> login = getAzureLogin(this.role, this.getAccessToken());
+
             VaultResponse response = (VaultResponse)this.restOperations.postForObject(getLoginPath("azure"), login, VaultResponse.class, new Object[0]);
             Assert.state(response != null && response.getAuth() != null, "Auth field must not be null");
             if (logger.isDebugEnabled()) {
