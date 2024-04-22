@@ -10,22 +10,21 @@ import org.springframework.vault.config.AbstractVaultConfiguration;
 
 import java.net.URI;
 
-@Configuration
+@Configuration(proxyBeanMethods = true)
 public class AzureConfiguration extends AbstractVaultConfiguration {
 
-    @Value("${VAULT_ROLE:test-role}")
-    private String vaultRole;
-
-    @Value("${VAULT_URL}")
-    private String vaultUrl;
 
     @Override
     public VaultEndpoint vaultEndpoint() {
-        return VaultEndpoint.from(vaultUrl);
+        return VaultEndpoint.from(System.getenv("VAULT_URL"));
     }
 
     @Override
     public ClientAuthentication clientAuthentication() {
-        return new WebAppClientAuthentication(restOperations(), vaultRole);
+        String role = System.getenv("VAULT_ROLE");
+        if (role == null) {
+            role = "test-role";
+        }
+        return new WebAppClientAuthentication(restOperations(), role);
     }
 }
