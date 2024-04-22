@@ -65,17 +65,16 @@ public class WebAppClientAuthentication implements ClientAuthentication {
     private VaultToken createTokenUsingAzureMsiCompute() {
         try {
             Map<String, String> login = getAzureLogin(this.role, this.getAccessToken());
-
+            logger.info("Trying to login using Azure authentication to vault: {}",System.getenv("VAULT_URL"));
             VaultResponse response = (VaultResponse)this.restOperations.postForObject(getLoginPath("azure"), login, VaultResponse.class, new Object[0]);
             Assert.state(response != null && response.getAuth() != null, "Auth field must not be null");
-            if (logger.isDebugEnabled()) {
-                logger.debug("Login successful using Azure authentication");
-            }
+            logger.info("Login successful using Azure authentication");
+
 
             return getLoginToken(response.getAuth());
-        } catch (RestClientException var3) {
-            logger.error("Cannot login using Azure authentication", var3);
-            throw VaultLoginException.create("Azure", var3);
+        } catch (Exception ex) {
+            logger.error("Cannot login using Azure authentication", ex);
+            throw VaultLoginException.create("Azure", ex);
         }
     }
 
