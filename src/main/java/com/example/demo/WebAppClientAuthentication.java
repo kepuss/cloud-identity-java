@@ -43,22 +43,23 @@ public class WebAppClientAuthentication implements ClientAuthentication {
     }
 
     private String getAccessToken() {
-        String identityHeader = System.getenv("IDENTITY_HEADER");
-        String identityEndpoint = System.getenv("IDENTITY_ENDPOINT");
-        String url = identityEndpoint + "?resource=https://vault.azure.net&api-version=2019-08-01";
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("x-identity-header", identityHeader);
-        logger.info("Azure MSI URL: " + url);
-
-        ResponseEntity<Map> response = this.restOperations.exchange(url, HttpMethod.GET, new HttpEntity(headers), Map.class);
-        String accessToken = (String)((Map)response.getBody()).get("access_token");
-        logger.info("Azure MSI Access token: " + accessToken);
-        return accessToken;
+//        String identityHeader = System.getenv("IDENTITY_HEADER");
+//        String identityEndpoint = System.getenv("IDENTITY_ENDPOINT");
+//        String url = identityEndpoint + "?resource=https://vault.azure.net&api-version=2019-08-01";
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add("x-identity-header", identityHeader);
+//        logger.info("Azure MSI URL: " + url);
+//
+//        ResponseEntity<Map> response = this.restOperations.exchange(url, HttpMethod.GET, new HttpEntity(headers), Map.class);
+//        String accessToken = (String)((Map)response.getBody()).get("access_token");
+//        logger.info("Azure MSI Access token: " + accessToken);
+//        return accessToken;
 
 //        String jwt = ".eyJhdWQiOiJodHRwczovL3ZhdWx0LmF6dXJlLm5ldCIsImlzcyI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzA1NDQwYmNmLTE3N2MtNDE5ZC05OTQ4LTgyOTdmNTk2NmFiNC8iLCJpYXQiOjE3MTM1MzQ1OTksIm5iZiI6MTcxMzUzNDU5OSwiZXhwIjoxNzEzNjIxMjk5LCJhaW8iOiJFMk5nWURCYU1WTnVvby85M3FicXhhVmFsc3N5QUE9PSIsImFwcGlkIjoiZjRlNzQyZGItZjU3Mi00NTYyLTg0MjMtZTQ0MGE5ODZmMDlhIiwiYXBwaWRhY3IiOiIyIiwiaWRwIjoiaHR0cHM6Ly9zdHMud2luZG93cy5uZXQvMDU0NDBiY2YtMTc3Yy00MTlkLTk5NDgtODI5N2Y1OTY2YWI0LyIsIm9pZCI6Ijk0MTBkMWM5LWViMDYtNDE0YS05NTVmLTYyODFiNTAwYzBmNCIsInJoIjoiMC5BRUlBend0RUJYd1huVUdaU0lLWDlaWnF0RG16cU0taWdocEhvOGtQd0w1NlFKTkNBQUEuIiwic3ViIjoiOTQxMGQxYzktZWIwNi00MTRhLTk1NWYtNjI4MWI1MDBjMGY0IiwidGlkIjoiMDU0NDBiY2YtMTc3Yy00MTlkLTk5NDgtODI5N2Y1OTY2YWI0IiwidXRpIjoiX2lNU2RPS2JYRW0xN1ZOeUZMOHRBQSIsInZlciI6IjEuMCIsInhtc19taXJpZCI6Ii9zdWJzY3JpcHRpb25zLzUxZmJiZmFjLTAxZmMtNGNjZS05MWJmLWVjNDg2MGY4Y2M2MC9yZXNvdXJjZWdyb3Vwcy9kZXZzZWNvcHMvcHJvdmlkZXJzL01pY3Jvc29mdC5BcHAvY29udGFpbmVyQXBwcy92YXVsdCJ9.a75agVjRSc_sPo64mE1KMAR_LR27d2mt0_D1DAj3fMRA5fU6E63Z_pna0_jFdpkDrl9yqk2gNUUNoCLxPLgIewwAyTvy5IX2qVoDOdyTkIoScvEOAb7CMvyTVZZzbX_vNnIi_5tRd7YT38prEIcCDlBF43ORrkUP3VM6bEBK55zBkXfyIF5k2rnRCIHaYrTFtbgPlAxfd0S1WmjRrBc8GbGmaDDOyxgdDDmqkXlJ7uGlPNKLd77VlNt6atHLx99eYtqftNP2DdX5lRwMjSe34uedHyq61ft8wBH3wwXtPT3fjs1gw2NGtGpMvFay3_Wd-Tc5z4A1jPTr-IeioMZGYw";
 //        DecodedJWT token = JWT.decode(jwt);
 //        String resource =token.getClaim("xms_mirid").asString();
 
+        return "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6InEtMjNmYWxldlpoaEQzaG05Q1Fia1A1TVF5VSIsImtpZCI6InEtMjNmYWxldlpoaEQzaG05Q1Fia1A1TVF5VSJ9.eyJhdWQiOiJodHRwczovL3ZhdWx0LmF6dXJlLm5ldCIsImlzcyI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzA1NDQwYmNmLTE3N2MtNDE5ZC05OTQ4LTgyOTdmNTk2NmFiNC8iLCJpYXQiOjE3MTM3OTU5MjYsIm5iZiI6MTcxMzc5NTkyNiwiZXhwIjoxNzEzODgyNjI2LCJhaW8iOiJFMk5nWVBpZTBIbGRReUxzeXBIVGhtMWxHVDFLQUE9PSIsImFwcGlkIjoiOWY4Zjk1ZGMtZmEwNC00ZTA2LTg5NzEtYTBlMjc2MTlhM2ZhIiwiYXBwaWRhY3IiOiIyIiwiaWRwIjoiaHR0cHM6Ly9zdHMud2luZG93cy5uZXQvMDU0NDBiY2YtMTc3Yy00MTlkLTk5NDgtODI5N2Y1OTY2YWI0LyIsIm9pZCI6ImEyOGVkM2E5LTY1NjMtNDMyYi1hMjU0LTQ3YzVjM2QzY2Q3YiIsInJoIjoiMC5BVUlBend0RUJYd1huVUdaU0lLWDlaWnF0RG16cU0taWdocEhvOGtQd0w1NlFKTkNBQUEuIiwic3ViIjoiYTI4ZWQzYTktNjU2My00MzJiLWEyNTQtNDdjNWMzZDNjZDdiIiwidGlkIjoiMDU0NDBiY2YtMTc3Yy00MTlkLTk5NDgtODI5N2Y1OTY2YWI0IiwidXRpIjoiYnlELTk5UnBoRUtDdzFaaVE5RzFBQSIsInZlciI6IjEuMCIsInhtc19taXJpZCI6Ii9zdWJzY3JpcHRpb25zLzUxZmJiZmFjLTAxZmMtNGNjZS05MWJmLWVjNDg2MGY4Y2M2MC9yZXNvdXJjZWdyb3Vwcy9kZXZzZWNvcHMvcHJvdmlkZXJzL01pY3Jvc29mdC5BcHAvY29udGFpbmVyQXBwcy9jbG91ZC1pZGVudGl0eS1hcHAifQ.aIyfA2vEJxKKf2NQVOb6wDiC8Fkj40-ZeuFMnu9Ggr3XjRSxygGnx2cvC7mnJ16LmgTuOptt1uwTsqIb4iGwNxRtRyQ6rkn5lMO1DDSxm8wOXb98U0GasBOrjH4tMnSYstzhU-VZ1Cwj3vENWOvc4wTpho4suGo4mwv7yNPjlbusZdp8UAcg8JfeH9mD3hsoZumzR8DUuLzMx6FRKL1w8F8WBJ-gAlvEw4OuI4h5Myo-3apOFBxtI_hncJMloDL0LK_afaxHOVouMaBiT3IGGjfNeb657hnGivR0u7J6P1kmLABqgCR3i2dVCU9IR1kn11619nZHCRU-w3LLowHvcw";
     }
 
 
@@ -127,12 +128,8 @@ public class WebAppClientAuthentication implements ClientAuthentication {
     private static Map<String, String> getAzureLogin(String role, String jwt) {
         DecodedJWT token = JWT.decode(jwt);
         String resource_id =token.getClaim("xms_mirid").asString();
-        String regex = "/subscriptions/([^/]+)/resourcegroups/([^/]+)/providers/[^/]+/([^/]+)";
-
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(resource_id);
-        String subscriptionId = matcher.group(1);
-        String resourceGroupName = matcher.group(2);
+        String subscriptionId = resource_id.split("/")[2];
+        String resourceGroupName = resource_id.split("/")[4];
 
         Map<String, String> loginBody = new LinkedHashMap();
         loginBody.put("role", role);
